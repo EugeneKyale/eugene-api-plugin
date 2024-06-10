@@ -43,21 +43,18 @@ class AjaxHandler {
 	 * @since 1.0.0
 	 */
 	public static function handle_request() {
-		// Nonce check for additional security (Optional if your data retrieval doesn't involve sensitive actions)
-		// check_ajax_referer('eugene_api_nonce', 'nonce');
+		check_ajax_referer( 'eugene_api_nonce', 'nonce' );
 
-		$data = get_transient( 'eugene_api_data' );
-		if ( false === $data ) {
-			$response = wp_remote_get( 'https://miusage.com/v1/challenge/1/' );
-			if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
-				wp_send_json_error( 'Failed to fetch data' );
+		// Fetch new data regardless of existing transient
+		$response = wp_remote_get( 'https://miusage.com/v1/challenge/1/' );
+		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+			wp_send_json_error( 'Failed to fetch data' );
 
-				return;
-			}
-
-			$data = wp_remote_retrieve_body( $response );
-			set_transient( 'eugene_api_data', $data, 3600 );  // Cache for 1 hour.
+			return;
 		}
+
+		$data = wp_remote_retrieve_body( $response );
+		set_transient( 'eugene_api_data', $data, 3600 );  // Cache for 1 hour.
 
 		wp_send_json_success( json_decode( $data, true ) );
 	}

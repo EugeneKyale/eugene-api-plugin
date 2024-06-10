@@ -92,17 +92,16 @@ class AdminPageHandler {
 	 * @since 1.0.0
 	 */
 	public static function handle_data_refresh() {
-		// Ensure the nonce field is checked and validate it
-		if ( ! check_admin_referer( 'eugene_refresh_action' ) ) {
-			return; // Nonce validation fails, handle the error.
-		}
+		check_admin_referer( 'eugene_refresh_action' );
 
-		delete_transient( 'eugene_api_data' );
+		// Fetch and cache new data immediately
+		AjaxHandler::fetch_and_cache_data();  // Use the function we created earlier
 
 		// Redirect back to the admin page
-		wp_safe_redirect( add_query_arg( [ 'page' => 'eugene-api-data' ], admin_url( 'admin.php' ) ) );
+		wp_safe_redirect( admin_url( 'admin.php?page=eugene-api-data' ) );
 		exit;
 	}
+
 
 	/**
 	 * Enqueues JavaScript and CSS files for the admin page.
