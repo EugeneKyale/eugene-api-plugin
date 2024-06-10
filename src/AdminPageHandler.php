@@ -94,10 +94,10 @@ class AdminPageHandler {
 	public static function handle_data_refresh() {
 		check_admin_referer( 'eugene_refresh_action' );
 
-		// Fetch and cache new data immediately
-		AjaxHandler::fetch_and_cache_data();  // Use the function we created earlier
+		// Fetch and cache new data immediately.
+		AjaxHandler::fetch_and_cache_data();
 
-		// Redirect back to the admin page
+		// Redirect back to the admin page.
 		wp_safe_redirect( admin_url( 'admin.php?page=eugene-api-data' ) );
 		exit;
 	}
