@@ -1,0 +1,24 @@
+{
+  "name": "eugene-api-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EugeneKyale/eugene-api-plugin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EugeneKyale/eugene-api-plugin/issues"
+  },
+  "homepage": "https://github.com/EugeneKyale/eugene-api-plugin#readme",
+  "devDependencies": {
+    "@wordpress/scripts": "^28.0.0"
+  }
+}

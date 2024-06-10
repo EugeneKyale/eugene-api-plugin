@@ -39,7 +39,7 @@ class Plugin {
 	private function init() {
 		AjaxHandler::register();
 		AdminPageHandler::register();
-		// GutenbergBlock::register();
+		GutenbergBlock::register();
 		WPCLICommand::register();
 	}
 }
