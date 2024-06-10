@@ -2,6 +2,7 @@
 /**
  * Plugin Name: Eugene API Plugin
  * Description: Retrieves data from a remote API and exposes it via an AJAX endpoint, a Gutenberg block, and an admin page.
+ * Plugin URI: https://example.com/
  * Version: 1.0.0
  * Author: Eugene Kyale
  * Author URI: https://eugenekyale.com/
