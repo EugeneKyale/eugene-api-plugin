@@ -23,6 +23,7 @@ class AjaxHandler {
 	public static function register() {
 		add_action( 'wp_ajax_nopriv_eugene_fetch_data', [ self::class, 'handle_request' ] );
 		add_action( 'wp_ajax_eugene_fetch_data', [ self::class, 'handle_request' ] );
+		add_action( 'rest_api_init', [ self::class, 'register_api_routes' ] );
 	}
 
 	/**
@@ -64,5 +65,46 @@ class AjaxHandler {
 		set_transient( 'eugene_api_data', $data, 3600 );
 
 		wp_send_json_success( json_decode( $data, true ) );
+	}
+
+	/**
+	 * Fetch and return data for the REST API.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return WP_REST_Response The API response.
+	 */
+	public static function get_api_data() {
+		// Check if data is cached.
+		$data = get_transient( 'eugene_api_data' );
+
+		if ( ! $data ) {
+			// Fetch data if not cached.
+			$response = wp_remote_get( self::$apiUrl );
+			if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
+				return new \WP_REST_Response( [
+					'message' => 'Failed to fetch data from external API',
+					'error'   => $response->get_error_message(),
+				], 500 );
+			}
+
+			$data = wp_remote_retrieve_body( $response );
+			set_transient( 'eugene_api_data', $data, 3600 );
+		}
+
+		return new \WP_REST_Response( json_decode( $data, true ), 200 );
+	}
+
+	/**
+	 * Register REST API routes.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function register_api_routes() {
+		register_rest_route( 'eugene/v1', '/data/', [
+			'methods'             => 'GET',
+			'callback'            => [ self::class, 'get_api_data' ],
+			'permission_callback' => '__return_true'
+		] );
 	}
 }
