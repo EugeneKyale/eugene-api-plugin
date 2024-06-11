@@ -5,7 +5,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 
 registerBlockType('eugene/api-data-block', {
     title: 'API Data Block',
-    category: 'eugene-api-plugin',
+    category: 'widgets',
     attributes: {
         showId: { type: 'boolean', default: true },
         showFirstName: { type: 'boolean', default: true },
