@@ -13,7 +13,7 @@ class ApiData {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register() {
+	public static function register(): void {
 		add_action( 'admin_menu', [ self::class, 'add_admin_page' ] );
 		add_action( 'admin_enqueue_scripts', [ self::class, 'enqueue_scripts' ] );
 		add_action( 'admin_post_eugene_refresh_data', [ self::class, 'handle_data_refresh' ] );
@@ -24,7 +24,7 @@ class ApiData {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function add_admin_page() {
+	public static function add_admin_page(): void {
 		add_menu_page(
 			'Eugene API Data',
 			'Eugene API',
@@ -41,7 +41,7 @@ class ApiData {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function render_admin_page() {
+	public static function render_admin_page(): void {
 		$api_data = get_transient( 'eugene_api_data' );
 		if ( ! $api_data ) {
 			$data = 'No data available. Please refresh.';
@@ -95,7 +95,7 @@ class ApiData {
 		check_admin_referer( 'eugene_refresh_action' );
 
 		// Fetch and cache new data immediately.
-		AjaxHandler::fetch_and_cache_data();
+		\Eugene\ApiPlugin\Ajax\Handler::fetch_and_cache_data();
 
 		// Redirect back to the admin page.
 		wp_safe_redirect( admin_url( 'admin.php?page=eugene-api-data' ) );
@@ -110,10 +110,12 @@ class ApiData {
 	 *
 	 * @param string $hook The current admin page.
 	 */
-	public static function enqueue_scripts( $hook ) {
+	public static function enqueue_scripts( string $hook ): void {
+		$plugin_url = trailingslashit( EUGENE_PLUGIN_URL );
+
 		wp_enqueue_script(
 			'eugene-api-js',
-			plugins_url( '../../resources/js/data.js', __FILE__ ),
+			$plugin_url . 'src/resources/js/data.js',
 			[ 'jquery' ],
 			'1.0.0',
 			true

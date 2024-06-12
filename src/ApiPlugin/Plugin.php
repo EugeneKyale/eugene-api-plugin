@@ -13,7 +13,7 @@ class Plugin {
 	 *
 	 * @var Plugin|null
 	 */
-	private static $instance = null;
+	private static ?Plugin $instance = null;
 
 	/**
 	 * Retrieves the singleton instance of this class.
@@ -22,7 +22,7 @@ class Plugin {
 	 *
 	 * @return Plugin Returns the instance of this class.
 	 */
-	public static function instance() {
+	public static function instance(): Plugin {
 		if ( self::$instance === null ) {
 			self::$instance = new self();
 			self::$instance->init();
@@ -36,8 +36,8 @@ class Plugin {
 	 *
 	 * @since 1.0.0
 	 */
-	private function init() {
-		Ajax\Operations::register();
+	private function init(): void {
+		Ajax\Handler::register();
 		Admin\ApiData::register();
 		Blocks\ApiData::register();
 		WPCLI\ForceRefresh::register();

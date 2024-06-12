@@ -2,25 +2,27 @@
 
 namespace Eugene\ApiPlugin\Ajax;
 
+use WP_REST_Response;
+
 /**
  * Handles all AJAX operations for the plugin.
  *
  * @since 1.0.0
  */
-class Operations {
+class Handler {
 	/**
 	 * API URL used for fetching data.
 	 *
 	 * @since 1.0.0
 	 */
-	protected static $apiUrl = 'https://miusage.com/v1/challenge/1/';
+	protected static string $apiUrl = 'https://miusage.com/v1/challenge/1/';
 
 	/**
 	 * Register AJAX hooks with WordPress.
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register() {
+	public static function register(): void {
 		add_action( 'wp_ajax_nopriv_eugene_fetch_data', [ self::class, 'handle_request' ] );
 		add_action( 'wp_ajax_eugene_fetch_data', [ self::class, 'handle_request' ] );
 		add_action( 'rest_api_init', [ self::class, 'register_api_routes' ] );
@@ -31,7 +33,7 @@ class Operations {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function fetch_and_cache_data() {
+	public static function fetch_and_cache_data(): void {
 		$response = wp_remote_get( self::$apiUrl );
 		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
 			error_log( 'Failed to fetch initial data' );
@@ -50,10 +52,10 @@ class Operations {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function handle_request() {
+	public static function handle_request(): void {
 		check_ajax_referer( 'eugene_api_nonce', 'nonce' );
 
-		// Fetch new data regardless of existing transient
+		// Fetch new data regardless of existing transient.
 		$response = wp_remote_get( self::$apiUrl );
 		if ( is_wp_error( $response ) || wp_remote_retrieve_response_code( $response ) !== 200 ) {
 			wp_send_json_error( 'Failed to fetch data' );
@@ -74,7 +76,7 @@ class Operations {
 	 *
 	 * @return WP_REST_Response The API response.
 	 */
-	public static function get_api_data() {
+	public static function get_api_data(): WP_REST_Response {
 		// Check if data is cached.
 		$data = get_transient( 'eugene_api_data' );
 
@@ -100,7 +102,7 @@ class Operations {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_api_routes() {
+	public static function register_api_routes(): void {
 		register_rest_route( 'eugene/v1', '/data/', [
 			'methods'             => 'GET',
 			'callback'            => [ self::class, 'get_api_data' ],

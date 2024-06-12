@@ -13,7 +13,7 @@ class ApiData {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register() {
+	public static function register(): void {
 		add_action( 'init', [ self::class, 'register_block' ] );
 	}
 
@@ -22,11 +22,13 @@ class ApiData {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function register_block() {
+	public static function register_block(): void {
+		$plugin_url = trailingslashit( EUGENE_PLUGIN_URL );
+
 		// Register the block editor script.
 		wp_register_script(
 			'eugene-block-editor',
-			plugins_url( '../../../build/blocks/index.js', __FILE__ ),
+			$plugin_url . 'build/blocks/index.js',
 			[
 				'wp-blocks',
 				'wp-i18n',
@@ -41,7 +43,7 @@ class ApiData {
 		// Register frontend and editor styles.
 		wp_register_style(
 			'eugene-block-style',
-			plugins_url( '../../../build/blocks/index.css', __FILE__ ),
+			$plugin_url . 'build/blocks/index.css',
 			[],
 			'1.0.0'
 		);
@@ -49,7 +51,7 @@ class ApiData {
 		// Register the block script for frontend.
 		wp_register_script(
 			'eugene-block-frontend',
-			plugins_url( '../../../build/blocks/frontend.js', __FILE__ ),
+			$plugin_url . 'build/blocks/frontend.js',
 			[],
 			'1.0.0',
 			true
@@ -74,7 +76,7 @@ class ApiData {
 	 *
 	 * @return string HTML content for the block.
 	 */
-	public static function render_block( $attributes ) {
+	public static function render_block( array $attributes ): string {
 		// Fetch data from the same source as the editor.
 		$api_response = get_transient( 'eugene_api_data' );
 
@@ -91,7 +93,7 @@ class ApiData {
 			echo '<div>';
 			echo '<h4>' . esc_html( $data['title'] ) . '</h4>';
 			echo '<table>';
-			// Headers
+			// Headers.
 			echo '<thead><tr>';
 			foreach ( $data['data']['headers'] as $header ) {
 				if ( isset( $attributes[ "show" . str_replace( ' ', '', $header ) ] ) && $attributes[ "show" . str_replace( ' ', '', $header ) ] ) {
@@ -99,7 +101,7 @@ class ApiData {
 				}
 			}
 			echo '</tr></thead>';
-			// Rows
+			// Rows.
 			echo '<tbody>';
 			foreach ( $data['data']['rows'] as $row ) {
 				echo '<tr>';
@@ -114,8 +116,7 @@ class ApiData {
 			echo '</tbody></table>';
 			echo '</div>';
 		}
-		$output = ob_get_clean();
 
-		return $output;
+		return ob_get_clean();
 	}
 }
