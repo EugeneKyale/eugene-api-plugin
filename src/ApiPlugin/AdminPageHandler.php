@@ -113,7 +113,7 @@ class AdminPageHandler {
 	public static function enqueue_scripts( $hook ) {
 		wp_enqueue_script(
 			'eugene-api-js',
-			plugins_url( 'resources/js/data.js', __FILE__ ),
+			plugins_url( '../resources/js/data.js', __FILE__ ),
 			[ 'jquery' ],
 			'1.0.0',
 			true
