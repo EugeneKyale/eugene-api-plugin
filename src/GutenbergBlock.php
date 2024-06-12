@@ -26,7 +26,7 @@ class GutenbergBlock {
 		// Register the block editor script.
 		wp_register_script(
 			'eugene-block-editor',
-			plugins_url( '../build/index.js', __FILE__ ),
+			plugins_url( '../build/blocks/index.js', __FILE__ ),
 			[
 				'wp-blocks',
 				'wp-i18n',
@@ -41,16 +41,27 @@ class GutenbergBlock {
 		// Register frontend and editor styles.
 		wp_register_style(
 			'eugene-block-style',
-			plugins_url( '../build/index.css', __FILE__ ),
+			plugins_url( '../build/blocks/index.css', __FILE__ ),
 			[],
 			'1.0.0'
+		);
+
+		// Register the block script for frontend.
+		wp_register_script(
+			'eugene-block-frontend',
+			plugins_url( '../build/blocks/frontend.js', __FILE__ ),
+			[],
+			'1.0.0',
+			true
 		);
 
 		// Register the block.
 		register_block_type( 'eugene/api-data-block', [
 			'editor_script'   => 'eugene-block-editor',
+			'editor_style'    => 'eugene-block-style',
+			'script'          => 'eugene-block-frontend',
 			'style'           => 'eugene-block-style',
-			'render_callback' => [ self::class, 'render_block' ]
+			'render_callback' => [ self::class, 'render_block' ],
 		] );
 	}
 
