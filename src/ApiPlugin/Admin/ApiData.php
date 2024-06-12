@@ -1,13 +1,13 @@
 <?php
 
-namespace Eugene\ApiPlugin;
+namespace Eugene\ApiPlugin\Admin;
 
 /**
  * Handles the admin page for the plugin.
  *
  * @since 1.0.0
  */
-class AdminPageHandler {
+class ApiData {
 	/**
 	 * Register the admin page and the necessary hooks.
 	 *
@@ -113,7 +113,7 @@ class AdminPageHandler {
 	public static function enqueue_scripts( $hook ) {
 		wp_enqueue_script(
 			'eugene-api-js',
-			plugins_url( '../resources/js/data.js', __FILE__ ),
+			plugins_url( '../../resources/js/data.js', __FILE__ ),
 			[ 'jquery' ],
 			'1.0.0',
 			true

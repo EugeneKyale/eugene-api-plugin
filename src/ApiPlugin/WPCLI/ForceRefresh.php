@@ -1,13 +1,13 @@
 <?php
 
-namespace Eugene\ApiPlugin;
+namespace Eugene\ApiPlugin\WPCLI;
 
 /**
  * Handles WP CLI commands for the plugin.
  *
  * @since 1.0.0
  */
-class WPCLICommand {
+class ForceRefresh {
 	/**
 	 * Register WP CLI commands.
 	 *

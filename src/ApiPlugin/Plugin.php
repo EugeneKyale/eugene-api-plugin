@@ -37,9 +37,9 @@ class Plugin {
 	 * @since 1.0.0
 	 */
 	private function init() {
-		AjaxHandler::register();
-		AdminPageHandler::register();
-		GutenbergBlock::register();
-		WPCLICommand::register();
+		Ajax\Operations::register();
+		Admin\ApiData::register();
+		Blocks\ApiData::register();
+		WPCLI\ForceRefresh::register();
 	}
 }

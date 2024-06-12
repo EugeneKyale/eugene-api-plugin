@@ -1,13 +1,13 @@
 <?php
 
-namespace Eugene\ApiPlugin;
+namespace Eugene\ApiPlugin\Ajax;
 
 /**
  * Handles all AJAX operations for the plugin.
  *
  * @since 1.0.0
  */
-class AjaxHandler {
+class Operations {
 	/**
 	 * API URL used for fetching data.
 	 *
