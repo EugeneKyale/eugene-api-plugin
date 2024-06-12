@@ -25,6 +25,5 @@ if ( file_exists( EUGENE_PLUGIN_PATH . 'vendor/autoload.php' ) ) {
 // Initialize the plugin.
 \Eugene\ApiPlugin\Plugin::instance();
 
-
 // Fetch data from the external API on plugin activation and cache it for a better UX.
 register_activation_hook( __FILE__, [ 'Eugene\ApiPlugin\Ajax\Handler', 'fetch_and_cache_data' ] );
